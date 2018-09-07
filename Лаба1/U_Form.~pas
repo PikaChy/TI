@@ -1,0 +1,71 @@
+unit U_Form;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, U_IOManager;
+
+type
+  TForm1 = class(TForm)
+    dlgOpen1: TOpenDialog;
+    procedure FormCreate(Sender: TObject);
+  private
+    InputOutput: IOManager;
+    openedFilePath: String;
+    function openFile(msg: string): boolean;
+    { Private declarations }
+  public
+    procedure println(msg: string);
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  InputOutput := IOManager.Create;
+  dlgOpen1.InitialDir := GetCurrentDir;
+  if (openFile('Выберите входной файл!')) then
+  begin
+    InputOutput.writeToFile('output.txt', InputOutput.readFromFile('input.txt'));
+  end
+  else
+  begin
+    println('Программа будет закрыта!');
+    Exit;
+  end;
+end;
+
+function TForm1.openFile(msg: string): boolean;
+var
+  answer: integer;
+begin
+  println(msg);
+  while (not dlgOpen1.Execute) do
+  begin
+      //dlgOpen1.FileName
+    answer := MessageDlg('Для работы необходим входной файл!', mtError, [mbRetry, mbCancel], 0);
+    if (answer = mrCancel) then
+    begin
+      Result := false;
+      Exit;
+    end;
+  end;
+  openedFilePath := dlgOpen1.FileName;
+  println('Файл загружен!');
+  Result := true;
+end;
+
+procedure TForm1.println(msg: string);
+begin
+  ShowMessage(msg);
+end;
+
+end.
+
