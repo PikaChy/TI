@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, U_IOManager, StdCtrls;
+  Dialogs, U_IOManager, StdCtrls, U_FenceCypher;
 
 type
   TForm1 = class(TForm)
@@ -14,10 +14,15 @@ type
     lblInputFilePath: TLabel;
     lblOutputFilePath: TLabel;
     btnDoSmth: TButton;
+    rbCypher: TRadioButton;
+    rbCypherRectangle: TRadioButton;
+    rbCypherViznera: TRadioButton;
+    btnDoCypher: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnOpenInputFileClick(Sender: TObject);
     procedure btnOpenOutputFileClick(Sender: TObject);
     procedure btnDoSmthClick(Sender: TObject);
+    procedure btnDoCypherClick(Sender: TObject);
   private
     InputOutput: IOManager;
     InputFilePath: string;
@@ -95,7 +100,25 @@ end;
 
 procedure TForm1.btnDoSmthClick(Sender: TObject);
 begin
-    InputOutput.writeToFile(OutputFilePath, InputOutput.readFromFile(InputFilePath));
+  InputOutput.writeToFile(OutputFilePath, InputOutput.readFromFile(InputFilePath));
+end;
+
+procedure TForm1.btnDoCypherClick(Sender: TObject);
+begin
+  if (rbCypher.Checked) then
+  begin
+    //Шифр изгородь
+    FenceCypher('это лабораторная работа по киоки', 4);
+    println('Шифрование по алгоритму "изгородь" произведено');
+  end
+  else if (rbCypherRectangle.Checked) then
+  begin
+    //Шифр решетка
+  end
+  else if (rbCypherViznera.Checked) then
+  begin
+    //Шифр Вижнера
+  end;
 end;
 
 end.

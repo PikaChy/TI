@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 801
-  Top = 246
+  Left = 730
+  Top = 244
   Width = 1305
   Height = 675
   Caption = #1050#1088#1080#1087#1086#1090#1075#1088#1072#1092
@@ -54,6 +54,39 @@ object Form1: TForm1
     Caption = 'Do'
     TabOrder = 2
     OnClick = btnDoSmthClick
+  end
+  object rbCypher: TRadioButton
+    Left = 72
+    Top = 24
+    Width = 121
+    Height = 17
+    Caption = #1040#1083#1075#1086#1088#1080#1090#1084' '#1080#1079#1075#1086#1088#1086#1076#1080
+    TabOrder = 3
+  end
+  object rbCypherRectangle: TRadioButton
+    Left = 72
+    Top = 40
+    Width = 121
+    Height = 17
+    Caption = #1040#1083#1075#1086#1088#1080#1090#1084' '#1088#1077#1096#1077#1090#1082#1080
+    TabOrder = 4
+  end
+  object rbCypherViznera: TRadioButton
+    Left = 72
+    Top = 56
+    Width = 121
+    Height = 17
+    Caption = #1040#1083#1075#1086#1088#1080#1090#1084' '#1042#1080#1078#1085#1077#1088#1072
+    TabOrder = 5
+  end
+  object btnDoCypher: TButton
+    Left = 32
+    Top = 96
+    Width = 201
+    Height = 57
+    Caption = #1047#1072#1096#1080#1092#1088#1086#1074#1072#1090#1100
+    TabOrder = 6
+    OnClick = btnDoCypherClick
   end
   object dlgOpen1: TOpenDialog
     Left = 568

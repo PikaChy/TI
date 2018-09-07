@@ -1,0 +1,48 @@
+unit U_FenceCypher;
+
+interface
+
+uses
+  U_Util;
+
+function FenceCypher(text: string; fenceHeight: integer): string;
+
+implementation
+
+uses
+  SysUtils;
+
+function FenceCypher(text: string; fenceHeight: integer): string;
+var
+  matrix: array of array of char;
+  i, j, vector, posInText: integer;
+  finalText: string;
+begin
+  SetLength(matrix, fenceHeight, length(text));
+  text := AnsiUpperCase(text);
+  finalText := '';
+  i := 0;
+  posInText := 1;
+  vector := 1;
+  for j := 0 to length(text) do
+  begin
+    matrix[i][j] := text[posInText];
+    inc(posInText);
+    i := i + (1 * vector);
+    if (i = 0) or (i = fenceHeight - 1) then
+    begin
+      vector := vector * (-1);
+    end;
+  end;
+  for i := 0 to fenceHeight do
+  begin
+    for j := 0 to length(text) do
+    begin
+        
+    end;
+  end;
+
+end;
+
+end.
+

@@ -4,16 +4,30 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, U_IOManager;
+  Dialogs, U_IOManager, StdCtrls;
 
 type
   TForm1 = class(TForm)
     dlgOpen1: TOpenDialog;
+    btnOpenInputFile: TButton;
+    btnOpenOutputFile: TButton;
+    lblInputFilePath: TLabel;
+    lblOutputFilePath: TLabel;
+    btnDoSmth: TButton;
+    rbCypher: TRadioButton;
+    rbCypherRectangle: TRadioButton;
+    rbCypherViznera: TRadioButton;
+    btnDoCypher: TButton;
     procedure FormCreate(Sender: TObject);
+    procedure btnOpenInputFileClick(Sender: TObject);
+    procedure btnOpenOutputFileClick(Sender: TObject);
+    procedure btnDoSmthClick(Sender: TObject);
+    procedure btnDoCypherClick(Sender: TObject);
   private
     InputOutput: IOManager;
-    openedFilePath: String;
-    function openFile(msg: string): boolean;
+    InputFilePath: string;
+    OutputFilePath: string;
+    function openFile(msg: string; var filePath: string): boolean;
     { Private declarations }
   public
     procedure println(msg: string);
@@ -31,22 +45,15 @@ procedure TForm1.FormCreate(Sender: TObject);
 begin
   InputOutput := IOManager.Create;
   dlgOpen1.InitialDir := GetCurrentDir;
-  if (openFile('Выберите входной файл!')) then
-  begin
-    InputOutput.writeToFile('output.txt', InputOutput.readFromFile('input.txt'));
-  end
-  else
-  begin
-    println('Программа будет закрыта!');
-    Exit;
-  end;
+  lblInputFilePath.Caption := 'Файл не выбран!';
+  lblOutputFilePath.Caption := 'Файл не выбран!';
 end;
 
-function TForm1.openFile(msg: string): boolean;
+function TForm1.openFile(msg: string; var filePath: string): boolean;
 var
   answer: integer;
 begin
-  println(msg);
+  //println(msg);
   while (not dlgOpen1.Execute) do
   begin
       //dlgOpen1.FileName
@@ -57,7 +64,7 @@ begin
       Exit;
     end;
   end;
-  openedFilePath := dlgOpen1.FileName;
+  filePath := dlgOpen1.FileName;
   println('Файл загружен!');
   Result := true;
 end;
@@ -65,6 +72,51 @@ end;
 procedure TForm1.println(msg: string);
 begin
   ShowMessage(msg);
+end;
+
+procedure TForm1.btnOpenInputFileClick(Sender: TObject);
+begin
+  if (openFile('Выберите входной файл!', InputFilePath)) then
+  begin
+    lblInputFilePath.Caption := InputFilePath;
+  end
+  else
+  begin
+    println('Файл не выбран!');
+  end;
+end;
+
+procedure TForm1.btnOpenOutputFileClick(Sender: TObject);
+begin
+  if (openFile('Выберите файл для записи!', OutputFilePath)) then
+  begin
+    lblOutputFilePath.Caption := OutputFilePath;
+  end
+  else
+  begin
+    println('Файл не выбран!');
+  end;
+end;
+
+procedure TForm1.btnDoSmthClick(Sender: TObject);
+begin
+  InputOutput.writeToFile(OutputFilePath, InputOutput.readFromFile(InputFilePath));
+end;
+
+procedure TForm1.btnDoCypherClick(Sender: TObject);
+begin
+  if (rbCypher.Checked) then
+  begin
+    //Шифр изгородь
+  end
+  else if (rbCypherRectangle.Checked) then
+  begin
+    //Шифр решетка
+  end
+  else if (rbCypherViznera.Checked) then
+  begin
+    //Шифр Вижнера
+  end;
 end;
 
 end.

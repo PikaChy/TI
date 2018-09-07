@@ -2,8 +2,9 @@ program Project1;
 
 uses
   Forms,
-  Unit1 in 'Unit1.pas' {Form1},
-  IOManager in 'U_IOManager.pas';
+  U_Form in 'U_Form.pas' {Form1},
+  U_IOManager in 'U_IOManager.pas',
+  U_FenceCypher in 'U_FenceCypher.pas';
 
 {$R *.res}
 
