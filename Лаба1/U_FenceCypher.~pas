@@ -18,30 +18,37 @@ var
   i, j, vector, posInText: integer;
   finalText: string;
 begin
+
   SetLength(matrix, fenceHeight, length(text));
   text := AnsiUpperCase(text);
   finalText := '';
   i := 0;
   posInText := 1;
   vector := 1;
-  for j := 0 to length(text) do
+  for j := 0 to length(text) - 1 do
   begin
+    while not (text[posInText] in RUS_LETTERS) and (posInText <= length(text)) do
+    begin
+      inc(posInText);
+    end;
     matrix[i][j] := text[posInText];
-    inc(posInText);
     i := i + (1 * vector);
     if (i = 0) or (i = fenceHeight - 1) then
     begin
       vector := vector * (-1);
     end;
+    inc(posInText);
+
   end;
-  for i := 0 to fenceHeight do
+  for i := 0 to fenceHeight - 1 do
   begin
-    for j := 0 to length(text) do
+    for j := 0 to length(text) - 1 do
     begin
-        
+      if (matrix[i][j] in RUS_LETTERS) then
+        finalText := finalText + matrix[i][j];
     end;
   end;
-
+  Result := finalText;
 end;
 
 end.

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, U_IOManager, StdCtrls;
+  Dialogs, U_IOManager, StdCtrls, U_FenceCypher, U_Util;
 
 type
   TForm1 = class(TForm)
@@ -18,11 +18,17 @@ type
     rbCypherRectangle: TRadioButton;
     rbCypherViznera: TRadioButton;
     btnDoCypher: TButton;
+    edtKeyHeight: TEdit;
+    edtKeyWord: TEdit;
+    lblInText: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnOpenInputFileClick(Sender: TObject);
     procedure btnOpenOutputFileClick(Sender: TObject);
     procedure btnDoSmthClick(Sender: TObject);
     procedure btnDoCypherClick(Sender: TObject);
+    procedure rbCypherClick(Sender: TObject);
+    procedure rbCypherVizneraClick(Sender: TObject);
+    procedure rbCypherRectangleClick(Sender: TObject);
   private
     InputOutput: IOManager;
     InputFilePath: string;
@@ -47,6 +53,8 @@ begin
   dlgOpen1.InitialDir := GetCurrentDir;
   lblInputFilePath.Caption := 'Файл не выбран!';
   lblOutputFilePath.Caption := 'Файл не выбран!';
+  edtKeyHeight.Visible := false;
+  edtKeyWord.Visible := false;
 end;
 
 function TForm1.openFile(msg: string; var filePath: string): boolean;
@@ -104,10 +112,24 @@ begin
 end;
 
 procedure TForm1.btnDoCypherClick(Sender: TObject);
+var
+  keyHeight: integer;
+  currentInput: string;
+  currentOutput: string;
 begin
   if (rbCypher.Checked) then
   begin
     //Шифр изгородь
+    keyHeight := isCorrectKeyInt(edtKeyHeight.Text);
+    if (keyHeight <> ERROR_CODE) then
+    begin
+      InputOutput.writeToFile(OutputFilePath, FenceCypher(InputOutput.readFromFile(InputFilePath), keyHeight));
+      println('Шифрование по алгоритму "изгородь" произведено');
+    end
+    else
+    begin
+      println('Высота некорректна');
+    end;
   end
   else if (rbCypherRectangle.Checked) then
   begin
@@ -117,6 +139,24 @@ begin
   begin
     //Шифр Вижнера
   end;
+end;
+
+procedure TForm1.rbCypherClick(Sender: TObject);
+begin
+  edtKeyWord.Visible := false;
+  edtKeyHeight.Visible := true;
+end;
+
+procedure TForm1.rbCypherVizneraClick(Sender: TObject);
+begin
+  edtKeyWord.Visible := true;
+  edtKeyHeight.Visible := false;
+end;
+
+procedure TForm1.rbCypherRectangleClick(Sender: TObject);
+begin
+  edtKeyHeight.Visible := false;
+  edtKeyWord.Visible := false;
 end;
 
 end.
