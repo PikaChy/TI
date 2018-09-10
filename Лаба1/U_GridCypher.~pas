@@ -1,0 +1,47 @@
+unit U_GridCypher;
+
+interface
+
+function GridCypher(text: string): string;
+
+implementation
+
+const
+  key_matrix: array[1..4] of array[1..4] of Integer = ((1, 13, 9, 8), (5, 10, 14, 2), (11, 6, 3, 15), (16, 4, 7, 12));
+
+function FillAndReadMatrix(currentText: string): string;
+var
+  i, j: integer;
+begin
+  Result := '';
+  for i := 1 to 4 do
+  begin
+    for j := 1 to 4 do
+    begin
+      Result := Result + currentText[key_matrix[i][j]];
+    end;
+  end;
+end;
+
+function GridCypher(text: string): string;
+var
+  GroupAmount, i: integer;
+  finalText, currentText: string;
+begin
+  finalText :='';
+  while (Length(text) mod 16 <> 0) do
+  begin
+    text := text + '*';
+  end;
+  GroupAmount := length(text) div 16;
+
+  for i := 1 to GroupAmount do
+  begin
+    currentText := Copy(text, ((i - 1) * 16) + 1, 16);
+    finalText := finalText + FillAndReadMatrix(currentText);
+  end;
+  Result := finalText;
+end;
+
+end.
+
