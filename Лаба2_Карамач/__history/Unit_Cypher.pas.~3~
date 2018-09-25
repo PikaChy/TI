@@ -1,0 +1,62 @@
+unit Unit_Cypher;
+
+interface
+
+type
+  TBinaryDigits = 0 .. 1;
+  TValue = array of TBinaryDigits;
+  TBitsToCalc = array of integer;
+
+  TLFSR = class(TOBject)
+  private
+    BitsToCalc: TBitsToCalc;
+  public
+    Value: TValue;
+    Size: integer;
+    LastDigit: TBinaryDigits;
+    constructor Create(const InitValue: TValue;
+      BitsToCalc: TBitsToCalc);
+    destructor Destroy(); override;
+    procedure Roll();
+  end;
+
+function Calculate(x1, x2, x3: TBinaryDigits): TBinaryDigits;
+
+implementation
+
+constructor TLFSR.Create(const InitValue: TValue;
+  ABitsToCalc: TBitsToCalc);
+begin
+  Size := Length(InitValue);
+  Value := InitValue;
+  BitsToCalc := ABitsToCalc;
+  LastDigit := Value[0];
+end;
+
+destructor TLFSR.Destroy();
+begin
+  inherited
+end;
+
+procedure TLFSR.Roll();
+var
+  i: integer;
+  FirstDigit: TBinaryDigits;
+begin
+  FirstDigit := 0;
+  for i := 0 to High(BitsToCalc) do
+    FirstDigit := FirstDigit xor Value[Size - 1 - BitsToCalc[i]];
+  for i := 0 to Size - 2 do
+  begin
+    Value[i] := Value[i + 1]
+  end;
+  Value[Size - 1] := FirstDigit;
+  LastDigit := Value[0];
+end;
+
+function Calculate(x1, x2, x3: TBinaryDigits): TBinaryDigits;
+begin
+  result := (x1 and x2) or (not x1 and x3);
+end;
+
+end.

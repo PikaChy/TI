@@ -1,0 +1,16 @@
+﻿[btnEnter]
+Coordinates=256,10,63,58
+
+[edtValue]
+Coordinates=107,78,65,58
+
+[btnDecypher]
+Coordinates=10,78,87,58
+
+[btnCypher]
+Coordinates=79,10,74,58
+
+[]
+Coordinates=163,10,83,58
+Visible=True
+

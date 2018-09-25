@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.808,=C:\Users\vladk\OneDrive\Документы\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.304,D:\$ 3 сем\ТИ\Лаба 2\UCipher.pas=D:\$ 3 сем\ТИ\Лаба 2\UCrypto.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.805,=D:\$ 3 сем\ТИ\Лаба 2\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.247,C:\Users\vladk\OneDrive\Документы\Embarcadero\Studio\Projects\Project1.dproj=D:\$ 3 сем\ТИ\Лаба 2\lab2.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.077,=C:\Users\vladk\OneDrive\Документы\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.859,=C:\Users\vladk\OneDrive\Документы\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.676,D:\BSUIR\ТИ\TI\Лаба2_Карамач\Unit_Form.dfm=D:\BSUIR\ТИ\TI\Лаба 2 _Крестинин\UMain.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.480,D:\BSUIR\ТИ\TI\Лаба2_Карамач\Unit_Cypher.pas=D:\BSUIR\ТИ\TI\Лаба 2 _Крестинин\UCrypto.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.676,D:\BSUIR\ТИ\TI\Лаба2_Карамач\Unit_Form.pas=D:\BSUIR\ТИ\TI\Лаба 2 _Крестинин\UMain.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.329,D:\$ 3 сем\ТИ\Лаба 2\Unit1.pas=D:\$ 3 сем\ТИ\Лаба 2\UCipher.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.566,=D:\$ 3 сем\ТИ\Лаба 2\UMain.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.745,D:\BSUIR\ТИ\TI\Лаба2_Карамач\lab2.dproj=D:\BSUIR\ТИ\TI\Лаба 2 _Крестинин\lab2.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

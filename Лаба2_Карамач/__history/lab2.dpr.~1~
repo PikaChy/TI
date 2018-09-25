@@ -1,0 +1,16 @@
+program lab2;
+
+uses
+  Vcl.Forms,
+  UMain in '..\Лаба 2 _Крестинин\UMain.pas' {Form1},
+  UCrypto in '..\Лаба 2 _Крестинин\UCrypto.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.Run;
+
+end.
