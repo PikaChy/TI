@@ -27,7 +27,7 @@ begin
   j := 1;
   while (j <= length(text)) do
   begin
-    if not (text[j] in RUS_LETTERS) then
+    if not (text[j] in ENG_LETTERS) then
     begin
       delete(text, j, 1);
     end
@@ -85,7 +85,7 @@ begin
   vector := 1;
   for j := 0 to length(text) - 1 do
   begin
-    while not (text[posInText] in RUS_LETTERS) and (posInText <= length(text)) do
+    while not (text[posInText] in ENG_LETTERS) and (posInText <= length(text)) do
     begin
       inc(posInText);
     end;
@@ -102,7 +102,7 @@ begin
   begin
     for j := 0 to length(text) - 1 do
     begin
-      if (matrix[i][j] in RUS_LETTERS) then
+      if (matrix[i][j] in ENG_LETTERS) then
         finalText := finalText + matrix[i][j];
     end;
   end;

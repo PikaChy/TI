@@ -1,10 +1,11 @@
 unit U_Form;
-
+
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, U_IOManager, StdCtrls, U_FenceCypher, U_Util;
+  Dialogs, U_IOManager, StdCtrls, U_FenceCypher, U_Util, U_GridCypher,
+  U_ViznerCypher;
 
 type
   TForm1 = class(TForm)
@@ -21,6 +22,9 @@ type
     edtKeyHeight: TEdit;
     edtKeyWord: TEdit;
     lblInText: TLabel;
+    lblOutText: TLabel;
+    btnChangeFiles: TButton;
+    btnDeCypher: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnOpenInputFileClick(Sender: TObject);
     procedure btnOpenOutputFileClick(Sender: TObject);
@@ -29,6 +33,8 @@ type
     procedure rbCypherClick(Sender: TObject);
     procedure rbCypherVizneraClick(Sender: TObject);
     procedure rbCypherRectangleClick(Sender: TObject);
+    procedure btnChangeFilesClick(Sender: TObject);
+    procedure btnDeCypherClick(Sender: TObject);
   private
     InputOutput: IOManager;
     InputFilePath: string;
@@ -73,7 +79,7 @@ begin
     end;
   end;
   filePath := dlgOpen1.FileName;
-  println('Файл загружен!');
+  //println('Файл загружен!');
   Result := true;
 end;
 
@@ -114,6 +120,7 @@ end;
 procedure TForm1.btnDoCypherClick(Sender: TObject);
 var
   keyHeight: integer;
+  keyWord: string;
   currentInput: string;
   currentOutput: string;
 begin
@@ -123,7 +130,11 @@ begin
     keyHeight := isCorrectKeyInt(edtKeyHeight.Text);
     if (keyHeight <> ERROR_CODE) then
     begin
-      InputOutput.writeToFile(OutputFilePath, FenceCypher(InputOutput.readFromFile(InputFilePath), keyHeight));
+      currentInput := InputOutput.readFromFile(InputFilePath);
+      currentOutput := FenceCypher(currentInput, keyHeight);
+      InputOutput.writeToFile(OutputFilePath, currentOutput);
+      lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+      lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
       println('Шифрование по алгоритму "изгородь" произведено');
     end
     else
@@ -134,10 +145,31 @@ begin
   else if (rbCypherRectangle.Checked) then
   begin
     //Шифр решетка
+    currentInput := InputOutput.readFromFile(InputFilePath);
+    currentOutput := GridCypher(currentInput);
+    InputOutput.writeToFile(OutputFilePath, currentOutput);
+    lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+    lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+    println('Шифрование по алгоритму "решетки" произведено');
   end
   else if (rbCypherViznera.Checked) then
   begin
     //Шифр Вижнера
+    keyWord := edtKeyWord.Text;
+    keyWord := AnsiUpperCase(keyWord);
+    if (isCorrectKeyWord(keyWord)) then
+    begin
+      currentInput := InputOutput.readFromFile(InputFilePath);
+      //currentOutput :=
+      InputOutput.writeToFile(OutputFilePath, currentOutput);
+      lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+      lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+      println('Шифрование по алгоритму "решетки" произведено');
+    end
+    else
+    begin
+      println('Некорректное ключевое слово!');
+    end;
   end;
 end;
 
@@ -159,5 +191,57 @@ begin
   edtKeyWord.Visible := false;
 end;
 
+procedure TForm1.btnChangeFilesClick(Sender: TObject);
+var
+  tempText: string;
+begin
+  tempText := InputFilePath;
+  InputFilePath := OutputFilePath;
+  OutputFilePath := tempText;
+  lblOutputFilePath.Caption := OutputFilePath;
+  lblInputFilePath.Caption := InputFilePath;
+end;
+
+procedure TForm1.btnDeCypherClick(Sender: TObject);
+var
+  keyHeight: integer;
+  currentInput: string;
+  currentOutput: string;
+begin
+  if (rbCypher.Checked) then
+  begin
+    //Шифр изгородь
+    keyHeight := isCorrectKeyInt(edtKeyHeight.Text);
+    if (keyHeight <> ERROR_CODE) then
+    begin
+      currentInput := InputOutput.readFromFile(InputFilePath);
+      currentOutput := FenceDeCypher(currentInput, keyHeight);
+      InputOutput.writeToFile(OutputFilePath, currentOutput);
+      lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+      lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+      println('Дешифрование по алгоритму "изгородь" произведено');
+    end
+    else
+    begin
+      println('Высота некорректна');
+    end;
+  end
+  else if (rbCypherRectangle.Checked) then
+  begin
+    //Шифр решетка
+    currentInput := InputOutput.readFromFile(InputFilePath);
+    currentOutput := GridDeCypher(currentInput);
+    InputOutput.writeToFile(OutputFilePath, currentOutput);
+    lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+    lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+    println('Дешифрование по алгоритму "решетки" произведено');
+  end
+  else if (rbCypherViznera.Checked) then
+  begin
+    //Шифр Вижнера
+  end;
+end;
+
 end.
 
+

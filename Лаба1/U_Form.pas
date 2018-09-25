@@ -1,10 +1,11 @@
 unit U_Form;
-
+
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, U_IOManager, StdCtrls, U_FenceCypher, U_Util;
+  Dialogs, U_IOManager, StdCtrls, U_FenceCypher, U_Util, U_GridCypher,
+  U_ViznerCypher;
 
 type
   TForm1 = class(TForm)
@@ -13,7 +14,6 @@ type
     btnOpenOutputFile: TButton;
     lblInputFilePath: TLabel;
     lblOutputFilePath: TLabel;
-    btnDoSmth: TButton;
     rbCypher: TRadioButton;
     rbCypherRectangle: TRadioButton;
     rbCypherViznera: TRadioButton;
@@ -119,10 +119,13 @@ end;
 procedure TForm1.btnDoCypherClick(Sender: TObject);
 var
   keyHeight: integer;
+  keyWord: string;
   currentInput: string;
   currentOutput: string;
 begin
-  if (rbCypher.Checked) then
+  if (InputFilePath = '') or (OutputFilePath = '') then
+    println('Введите существующие файлы!')
+  else if (rbCypher.Checked) then
   begin
     //Шифр изгородь
     keyHeight := isCorrectKeyInt(edtKeyHeight.Text);
@@ -143,10 +146,31 @@ begin
   else if (rbCypherRectangle.Checked) then
   begin
     //Шифр решетка
+    currentInput := InputOutput.readFromFile(InputFilePath);
+    currentOutput := GridCypher(currentInput);
+    InputOutput.writeToFile(OutputFilePath, currentOutput);
+    lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+    lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+    println('Шифрование по алгоритму "решетки" произведено');
   end
   else if (rbCypherViznera.Checked) then
   begin
     //Шифр Вижнера
+    keyWord := edtKeyWord.Text;
+    keyWord := AnsiUpperCase(keyWord);
+    if (isCorrectKeyWord(keyWord)) then
+    begin
+      currentInput := InputOutput.readFromFile(InputFilePath);
+      currentOutput := ViznerCypher(currentInput, keyWord);
+      InputOutput.writeToFile(OutputFilePath, currentOutput);
+      lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+      lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+      println('Шифрование по алгоритму "Виженера" произведено');
+    end
+    else
+    begin
+      println('Некорректное ключевое слово!');
+    end;
   end;
 end;
 
@@ -184,8 +208,11 @@ var
   keyHeight: integer;
   currentInput: string;
   currentOutput: string;
+  keyWord: string;
 begin
-  if (rbCypher.Checked) then
+  if (InputFilePath = '') or (OutputFilePath = '') then
+    println('Введите существующие файлы!')
+  else if (rbCypher.Checked) then
   begin
     //Шифр изгородь
     keyHeight := isCorrectKeyInt(edtKeyHeight.Text);
@@ -196,7 +223,7 @@ begin
       InputOutput.writeToFile(OutputFilePath, currentOutput);
       lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
       lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
-      println('Шифрование по алгоритму "изгородь" произведено');
+      println('Дешифрование по алгоритму "изгородь" произведено');
     end
     else
     begin
@@ -206,12 +233,34 @@ begin
   else if (rbCypherRectangle.Checked) then
   begin
     //Шифр решетка
+    currentInput := InputOutput.readFromFile(InputFilePath);
+    currentOutput := GridDeCypher(currentInput);
+    InputOutput.writeToFile(OutputFilePath, currentOutput);
+    lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+    lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+    println('Дешифрование по алгоритму "решетки" произведено');
   end
   else if (rbCypherViznera.Checked) then
   begin
     //Шифр Вижнера
+    keyWord := edtKeyWord.Text;
+    keyWord := AnsiUpperCase(keyWord);
+    if (isCorrectKeyWord(keyWord)) then
+    begin
+      currentInput := InputOutput.readFromFile(InputFilePath);
+      currentOutput := ViznerDeCypher(currentInput, keyWord);
+      InputOutput.writeToFile(OutputFilePath, currentOutput);
+      lblInText.Caption := 'На входе:' + #10 + #13 + currentInput;
+      lblOutText.Caption := 'На выходе:' + #10 + #13 + currentOutput;
+      println('Шифрование по алгоритму "Виженера" произведено');
+    end
+    else
+    begin
+      println('Некорректное ключевое слово!');
+    end;
   end;
 end;
 
 end.
 
+
